@@ -2,7 +2,7 @@ import sys
 import pprint
 
 from futu import *
-from logger import Logger
+from util import Logger
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)

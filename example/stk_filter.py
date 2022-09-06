@@ -1,4 +1,5 @@
 import pandas as pd
+from util import *
 from futu import *
 import time
 
@@ -47,9 +48,9 @@ while not last_page:
         for item in ret_list:
             print(item.stock_code)  # 取股票代码
             print(item.stock_name)  # 取股票名称
-            print(item[simple_filter])   # 取 simple_filter 对应的变量值
-            print(item.cur_price)   # 效果同上，也是取 simple_filter 对应的变量值
-            print(item[financial_filter])   # 取 financial_filter 对应的变量值
+            print(item[simple_filter])  # 取 simple_filter 对应的变量值
+            print(item.cur_price)  # 效果同上，也是取 simple_filter 对应的变量值
+            print(item[financial_filter])  # 取 financial_filter 对应的变量值
             print(item[custom_filter])  # 获取 custom_filter 的数值
     else:
         print('error: ', ls)
