@@ -1,8 +1,9 @@
 import pandas as pd
 from futu import *
 
-df = pd.DataFrame(columns=['code', 'category', 'list_time'])
+df = pd.DataFrame(columns=['code', 'name', 'category', 'list_time'])
 
+c = 0
 for line in open("default.log"):
     line = line.strip()
     if "==" in line or not line:
@@ -14,6 +15,7 @@ for line in open("default.log"):
         continue
     else:
         _, code, name, list_time = items
-        df.loc[name] = [code, category, list_time]
+        df.loc[c] = [code, name, category, list_time]
+        c += 1
 
 df.to_excel("sz.category.xlsx")
