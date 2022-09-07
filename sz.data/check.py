@@ -7,13 +7,14 @@ import plotly.express as px
 # df.to_excel("sz.detail.xlsx")
 
 
-df = pd.read_excel("sz.detail.xlsx")
-
-# print boxplot
+df = pd.read_excel("detail.0906.xlsx", index_col=0)
+#
+# # print boxplot
 # df.turnover /= 1e8
 # fig = px.box(df, y="turnover", points="all", log_y=True, notched=True)
 # fig.show()
-
+#
+# exit(0)
 
 # prev_close_price  last_price    outstanding_shares
 
@@ -35,9 +36,11 @@ def ratio(df):
     print(df.shape[0], end=": ")
     prev = df.prev_close_price  # * df.outstanding_shares
     cur = df.last_price  # * df.outstanding_shares
+    high = df.high_price  # * df.outstanding_shares
+    low = df.low_price  # * df.outstanding_shares
     delta = (cur.sum() - prev.sum()) / prev.sum()
-    delta1 = (df.high_price.sum() - prev.sum()) / prev.sum()
-    delta2 = (df.low_price.sum() - prev.sum()) / prev.sum()
+    delta1 = (high.sum() - prev.sum()) / prev.sum()
+    delta2 = (low.sum() - prev.sum()) / prev.sum()
     return round(delta, 4), round(delta1, 4), round(delta2, 4)
 
 

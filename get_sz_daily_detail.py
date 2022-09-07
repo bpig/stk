@@ -20,4 +20,16 @@ with Connect() as conn:
         df = pd.concat([df, data])
 
     tgt = "0907"
-    df.to_pickle("sz.data/detail.%s.df" % tgt)
+    columns = ['code', 'update_time', 'listing_date',
+               'prev_close_price', 'last_price', 'open_price', 'high_price', 'low_price',
+               'volume', 'turnover', 'circular_market_val', 'net_profit', 'turnover_rate', 'amplitude',
+               'avg_price', 'bid_ask_ratio', 'volume_ratio',
+               'highest52weeks_price', 'lowest52weeks_price',
+               'highest_history_price', 'lowest_history_price', 'close_price_5min',
+               'issued_shares', 'total_market_val', 'net_asset',
+               'earning_per_share',
+               'outstanding_shares', 'net_asset_per_share', 'ey_ratio', 'pe_ratio', 'pb_ratio',
+               'pe_ttm_ratio', 'dividend_ttm', 'dividend_ratio_ttm', ]
+
+    df = df[columns]
+    df.to_excel("sz.data/detail.%s.xlsx" % tgt)
