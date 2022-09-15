@@ -1,4 +1,9 @@
 import efinance as ef
 
-df = ef.stock.get_realtime_quotes()
-df.to_excel("0907.xlsx")
+etf_code = ""
+df = ef.stock.get_quote_history(etf_code)
+
+
+# df = ef.stock.get_realtime_quotes()
+# df.to_excel("0909.xlsx")
+#
