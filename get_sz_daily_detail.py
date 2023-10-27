@@ -19,7 +19,7 @@ with Connect() as conn:
         data.index = names
         df = pd.concat([df, data])
 
-    tgt = "0909"
+    tgt = "0916"
     columns = ['code', 'update_time', 'listing_date',
                'prev_close_price', 'last_price', 'open_price', 'high_price', 'low_price',
                'volume', 'turnover', 'circular_market_val', 'net_profit', 'turnover_rate', 'amplitude',
