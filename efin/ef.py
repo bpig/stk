@@ -5,5 +5,6 @@ import efinance as ef
 
 
 df = ef.stock.get_realtime_quotes()
-df.to_excel("0916.xlsx")
+df.to_parquet("0916.pq")
+print(df)
 #
