@@ -8,7 +8,7 @@ from plotly.subplots import make_subplots
 
 import warnings
 warnings.filterwarnings(
-    "ignore", message=".*notifyAll.*", #category=DeprecationWarning
+    "ignore", message=".*notifyAll.*", category=DeprecationWarning
 )
 
 
