@@ -3,6 +3,9 @@ from datetime import date
 from pathlib import Path
 import efinance as ef
 import os
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
 import warnings
 warnings.filterwarnings(
     "ignore", message=".*notifyAll.*", #category=DeprecationWarning
@@ -54,6 +57,31 @@ def get_one(stock):
     sub.to_parquet(f"{fname}")
     return sub
 
+def plot(df):
+    fig = make_subplots(specs=[[{'secondary_y': True}]])
+    fig.update_layout(
+        width=800,
+        height=600,
+    )
+    fig.update_xaxes(type='category')
+    fig.add_trace(
+        go.Scatter(
+            x=df.date,
+            y=df.gap,
+            mode='lines+markers',
+
+        ),
+        secondary_y=False
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=df.date,
+            y=df.cc.rolling(5).mean(),
+            mode='lines+markers',
+        ),
+        secondary_y=True
+    )
+    fig.show()
 
 
 
