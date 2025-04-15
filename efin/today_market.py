@@ -5,7 +5,7 @@ import efinance as ef
 import os
 import warnings
 warnings.filterwarnings(
-    "ignore", message=".*notifyAll.*", #category=DeprecationWarning
+    "ignore", message=".*notifyAll.*", category=DeprecationWarning
 )
 
 
