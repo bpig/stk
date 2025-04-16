@@ -18,7 +18,7 @@ def get_today(today=None):
         today = str(date.today())
     fname = f"daily/{today}.pq"
     if os.path.exists(fname):
-        print(f"read cached {fname}")
+        print(f"read cached {today}")
         return pd.read_parquet(fname)
 
     df = ef.stock.get_realtime_quotes()
@@ -44,6 +44,12 @@ def get_today(today=None):
     # dump today
     sub.to_parquet(f"{fname}")
     return sub
+
+def get_today_top(df):
+    top = df.query(
+        "traded_cap > 1e10 and amount > 3e8"
+    ).sort_values('ratio', ascending=False).reset_index(drop=True)
+    return top
 
 def get_one(stock, load=False):
     """stock: code or name"""
@@ -76,10 +82,12 @@ def andy_indicator(df, date=None):
     return df
 
 def plot(df, second=False, window=5):
+    title = df["name"].iloc[0] + "_" + df.code.iloc[0]
     fig = make_subplots(specs=[[{'secondary_y': True}]])
     fig.update_layout(
-        width=1000,
-        height=600,
+        width=1200,
+        height=900,
+        title=title
     )
     fig.update_xaxes(type='category')
     fig.add_trace(
@@ -110,8 +118,35 @@ def plot(df, second=False, window=5):
         #     ),
         #     secondary_y=True
         # )
+    #fig.write_image("ha.png",width=800, height=600, scale=2)
     fig.show()
 
+def plot_to_image(stock):
+    one = get_one(stock, load=True)
+    one = andy_indicator(one, '2023')
+    threshold_slope = 0.002  # 设定斜率阈值
+    one['smooth'] = one.slope.rolling(10, center=True, min_periods=1).mean()
+    one['trend'] = 'flat'
+    one.loc[one['smooth'] > threshold_slope, 'trend'] = 'up'
+    one.loc[one['smooth'] < -threshold_slope, 'trend'] = 'down'
+    one['segment'] = (one['trend'] != one['trend'].shift(1)).cumsum()
+    plot(one[30:], True)
 
-
+if __name__ == '__main__':
+    #name = ['600988']
+    #name = ['600206', '600575']
+    today = "2025-04-16"
+    df = pd.read_parquet(f"daily/{today}.pq")
+    top = get_today_top(df)
+    print(top[:10])
+    scope = [4, 10]
+    for idx, row in top.iterrows():
+        if idx < scope[0]:
+            continue
+        if idx > scope[1]:
+            break
+        name = row["name"]
+        code = row["code"]
+        print(idx, name)
+        plot_to_image(name)
 
